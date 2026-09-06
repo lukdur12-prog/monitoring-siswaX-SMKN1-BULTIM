@@ -1,6 +1,6 @@
 'use client'
-
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 type Siswa = {
@@ -18,6 +18,7 @@ type Siswa = {
 }
 
 export default function DataSiswa() {
+const router = useRouter()
   const [siswa, setSiswa] = useState<Siswa[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -51,8 +52,21 @@ export default function DataSiswa() {
   }
 
   useEffect(() => {
+  async function checkLogin() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
+      router.replace('/admin')
+      return
+    }
+
     loadSiswa()
-  }, [])
+  }
+
+  checkLogin()
+}, [router])
 
   function resetForm() {
     setNisn('')

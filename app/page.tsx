@@ -2,12 +2,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 export default function Home() {
   const [jumlahSiswa, setJumlahSiswa] = useState(0)
   const [jumlahKelas, setJumlahKelas] = useState(0)
+  const router = useRouter()
 
+  useEffect(() => {
+    async function logoutAndRedirect() {
+      await supabase.auth.signOut()
+      router.replace('/admin')
+    }
+
+    logoutAndRedirect()
+  }, [router])
   useEffect(() => {
     async function loadData() {
       const { count: siswaCount } = await supabase
