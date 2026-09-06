@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -9,11 +8,11 @@ type Siswa = {
   nisn: string
   nama_siswa: string
   jenis_kelamin: string
-  tempat_lahir: string
+  tempat_lahir: string | null
   tanggal_lahir: string | null
-  alamat: string
-  nama_orang_tua: string
-  nomor_hp_orang_tua: string
+  alamat: string | null
+  nama_orang_tua: string | null
+  nomor_hp_orang_tua: string | null
   kelas_id: number | null
   created_at: string
 }
@@ -38,6 +37,7 @@ export default function DataSiswa() {
     const { data, error } = await supabase
       .from('siswa')
       .select('*')
+      .eq('kelas_id', 2)
       .order('nama_siswa', { ascending: true })
 
     if (error) {
@@ -80,11 +80,12 @@ export default function DataSiswa() {
           nisn,
           nama_siswa: namaSiswa,
           jenis_kelamin: jenisKelamin,
-          tempat_lahir: tempatLahir,
+          tempat_lahir: tempatLahir || null,
           tanggal_lahir: tanggalLahir || null,
-          alamat,
-          nama_orang_tua: namaOrangTua,
-          nomor_hp_orang_tua: nomorHpOrangTua,
+          alamat: alamat || null,
+          nama_orang_tua: namaOrangTua || null,
+          nomor_hp_orang_tua: nomorHpOrangTua || null,
+          kelas_id: 2,
         },
       ])
 
@@ -126,7 +127,6 @@ export default function DataSiswa() {
     <main className="page">
       <div className="container">
 
-        {/* HEADER */}
         <div className="header">
           <div>
             <button
@@ -142,7 +142,7 @@ export default function DataSiswa() {
             <h1>👨‍🎓 Data Siswa</h1>
 
             <p>
-              Kelola data peserta didik Kelas X MP
+              Kelola data peserta didik Kelas X Manajemen Perkantoran (MP)
             </p>
           </div>
 
@@ -155,14 +155,14 @@ export default function DataSiswa() {
           </button>
         </div>
 
-        {/* FORM TAMBAH SISWA */}
         {showForm && (
           <section className="formCard">
 
             <div className="formTitle">
               <h2>Tambah Data Siswa</h2>
+
               <p>
-                Lengkapi data peserta didik berikut.
+                Data akan otomatis masuk ke Kelas X Manajemen Perkantoran (MP).
               </p>
             </div>
 
@@ -197,9 +197,7 @@ export default function DataSiswa() {
 
                   <select
                     value={jenisKelamin}
-                    onChange={(e) =>
-                      setJenisKelamin(e.target.value)
-                    }
+                    onChange={(e) => setJenisKelamin(e.target.value)}
                   >
                     <option value="">
                       Pilih jenis kelamin
@@ -221,9 +219,7 @@ export default function DataSiswa() {
                   <input
                     type="text"
                     value={tempatLahir}
-                    onChange={(e) =>
-                      setTempatLahir(e.target.value)
-                    }
+                    onChange={(e) => setTempatLahir(e.target.value)}
                     placeholder="Tempat lahir"
                   />
                 </div>
@@ -234,9 +230,7 @@ export default function DataSiswa() {
                   <input
                     type="date"
                     value={tanggalLahir}
-                    onChange={(e) =>
-                      setTanggalLahir(e.target.value)
-                    }
+                    onChange={(e) => setTanggalLahir(e.target.value)}
                   />
                 </div>
 
@@ -246,9 +240,7 @@ export default function DataSiswa() {
                   <input
                     type="text"
                     value={namaOrangTua}
-                    onChange={(e) =>
-                      setNamaOrangTua(e.target.value)
-                    }
+                    onChange={(e) => setNamaOrangTua(e.target.value)}
                     placeholder="Nama orang tua / wali"
                   />
                 </div>
@@ -259,9 +251,7 @@ export default function DataSiswa() {
                   <input
                     type="text"
                     value={nomorHpOrangTua}
-                    onChange={(e) =>
-                      setNomorHpOrangTua(e.target.value)
-                    }
+                    onChange={(e) => setNomorHpOrangTua(e.target.value)}
                     placeholder="Contoh: 08123456789"
                   />
                 </div>
@@ -271,9 +261,7 @@ export default function DataSiswa() {
 
                   <textarea
                     value={alamat}
-                    onChange={(e) =>
-                      setAlamat(e.target.value)
-                    }
+                    onChange={(e) => setAlamat(e.target.value)}
                     placeholder="Alamat lengkap siswa"
                     rows={3}
                   />
@@ -307,7 +295,6 @@ export default function DataSiswa() {
           </section>
         )}
 
-        {/* DAFTAR SISWA */}
         <section className="tableCard">
 
           <div className="tableHeader">
@@ -402,17 +389,13 @@ export default function DataSiswa() {
                       </td>
 
                       <td>
-
                         <button
                           type="button"
                           className="deleteButton"
-                          onClick={() =>
-                            hapusSiswa(item.id)
-                          }
+                          onClick={() => hapusSiswa(item.id)}
                         >
                           🗑️
                         </button>
-
                       </td>
 
                     </tr>
@@ -496,12 +479,16 @@ export default function DataSiswa() {
           cursor: pointer;
         }
 
+        .addButton:hover {
+          background: #188653;
+        }
+
         .formCard {
           background: white;
           border-radius: 20px;
           padding: 27px;
           margin-bottom: 25px;
-          box-shadow: 0 7px 25px rgba(0,0,0,.05);
+          box-shadow: 0 7px 25px rgba(0, 0, 0, .05);
           border: 1px solid #e8efeb;
         }
 
@@ -582,6 +569,10 @@ export default function DataSiswa() {
           cursor: pointer;
         }
 
+        .cancelButton:hover {
+          background: #f5f7f6;
+        }
+
         .saveButton {
           border: none;
           background: #1f9d65;
@@ -592,12 +583,16 @@ export default function DataSiswa() {
           cursor: pointer;
         }
 
+        .saveButton:hover {
+          background: #188653;
+        }
+
         .tableCard {
           background: white;
           border-radius: 20px;
           border: 1px solid #e8efeb;
           overflow: hidden;
-          box-shadow: 0 7px 25px rgba(0,0,0,.04);
+          box-shadow: 0 7px 25px rgba(0, 0, 0, .04);
         }
 
         .tableHeader {
@@ -608,6 +603,7 @@ export default function DataSiswa() {
         .tableHeader h2 {
           margin: 0;
           font-size: 19px;
+          color: #193b2d;
         }
 
         .tableHeader p {
@@ -656,6 +652,10 @@ export default function DataSiswa() {
           height: 34px;
           border-radius: 8px;
           cursor: pointer;
+        }
+
+        .deleteButton:hover {
+          background: #ffe0e0;
         }
 
         .empty {
