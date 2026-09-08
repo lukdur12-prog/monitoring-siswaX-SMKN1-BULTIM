@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
       return;
     }
 
-    router.push("/siswa");
+    router.push("/");
   }
 
   return (

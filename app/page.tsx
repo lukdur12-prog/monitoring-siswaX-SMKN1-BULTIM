@@ -10,14 +10,19 @@ export default function Home() {
   const [jumlahKelas, setJumlahKelas] = useState(0)
   const router = useRouter()
 
-  useEffect(() => {
-    async function logoutAndRedirect() {
-      await supabase.auth.signOut()
+ useEffect(() => {
+  async function checkLogin() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
       router.replace('/admin')
     }
+  }
 
-    logoutAndRedirect()
-  }, [router])
+  checkLogin()
+}, [router])
   useEffect(() => {
     async function loadData() {
       const { count: siswaCount } = await supabase
@@ -41,55 +46,58 @@ export default function Home() {
     loadData()
   }, [])
 
-  const menus = [
-    {
-      icon: '👨‍🎓',
-      title: 'Data Siswa',
-      desc: 'Kelola data peserta didik',
-      link: '/siswa',
-    },
-    {
-      icon: '📅',
-      title: 'Kehadiran',
-      desc: 'Pantau kehadiran siswa',
-    },
-    {
-      icon: '📚',
-      title: 'Perkembangan Belajar',
-      desc: 'Catat perkembangan akademik',
-    },
-    {
-      icon: '⭐',
-      title: 'Karakter',
-      desc: 'Pantau perkembangan karakter',
-    },
-    {
-      icon: '🌱',
-      title: 'Potensi & Minat',
-      desc: 'Kenali potensi siswa',
-    },
-    {
-      icon: '📖',
-      title: 'Jurnal Kelas',
-      desc: 'Catatan kegiatan pembelajaran',
-    },
-    {
-      icon: '😊',
-      title: 'Kepuasan Belajar',
-      desc: 'Suara dan pengalaman siswa',
-    },
-    {
-      icon: '📊',
-      title: 'Laporan',
-      desc: 'Laporan monitoring siswa',
-    },
-  ]
 
-  function bukaMenu(link?: string) {
-    if (link) {
-      window.location.href = link
-    }
+const menus = [
+  {
+    icon: '👨‍🎓',
+    title: 'Data Siswa',
+    desc: 'Kelola data peserta didik',
+    link: '/siswa',
+  },
+  {
+    icon: '📅',
+    title: 'Kehadiran',
+    desc: 'Pantau kehadiran siswa',
+    link: '/kehadiran',
+  },
+  {
+    icon: '📚',
+    title: 'Perkembangan Belajar',
+    desc: 'Catat perkembangan akademik',
+  },
+  {
+    icon: '⭐',
+    title: 'Karakter',
+    desc: 'Pantau perkembangan karakter',
+  },
+  {
+    icon: '🌱',
+    title: 'Potensi & Minat',
+    desc: 'Kenali potensi siswa',
+  },
+  {
+    icon: '📖',
+    title: 'Jurnal Kelas',
+    desc: 'Catatan kegiatan pembelajaran',
+  },
+  {
+    icon: '😊',
+    title: 'Kepuasan Belajar',
+    desc: 'Suara dan pengalaman siswa',
+  },
+  {
+    icon: '📊',
+    title: 'Laporan',
+    desc: 'Laporan monitoring siswa',
+  },
+]
+
+function bukaMenu(link?: string) {
+  if (link) {
+    window.location.href = link
   }
+}
+
 
   return (
     <div className="app">
@@ -154,13 +162,14 @@ export default function Home() {
             Data Siswa
           </button>
 
-          <button
-            type="button"
-            className="navItem"
-          >
-            <span>📅</span>
-            Kehadiran
-          </button>
+         <button
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu('/kehadiran')}
+>
+  <span>📅</span>
+  Kehadiran
+</button>
 
           <button
             type="button"
