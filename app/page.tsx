@@ -60,16 +60,18 @@ const menus = [
     desc: 'Pantau kehadiran siswa',
     link: '/kehadiran',
   },
-  {
-    icon: '📚',
-    title: 'Perkembangan Belajar',
-    desc: 'Catat perkembangan akademik',
-  },
-  {
-    icon: '⭐',
-    title: 'Karakter',
-    desc: 'Pantau perkembangan karakter',
-  },
+ {
+  icon: '📚',
+  title: 'Perkembangan Belajar',
+  desc: 'Catat perkembangan akademik',
+  link: '/perkembangan-belajar',
+},
+{
+  icon: '⭐',
+  title: 'Karakter',
+  desc: 'Pantau perkembangan karakter',
+  link: '/karakter',
+},
   {
     icon: '🌱',
     title: 'Potensi & Minat',
@@ -172,20 +174,22 @@ function bukaMenu(link?: string) {
 </button>
 
           <button
-            type="button"
-            className="navItem"
-          >
-            <span>📚</span>
-            Perkembangan
-          </button>
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu('/perkembangan-belajar')}
+>
+  <span>📚</span>
+  Perkembangan
+</button>
 
-          <button
-            type="button"
-            className="navItem"
-          >
-            <span>⭐</span>
-            Karakter
-          </button>
+<button
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu('/karakter')}
+>
+  <span>⭐</span>
+  Karakter
+</button>
 
           <button
             type="button"
