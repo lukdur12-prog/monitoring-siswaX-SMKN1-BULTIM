@@ -95,6 +95,9 @@ export default function LaporanPage() {
   const [siswaId, setSiswaId] = useState("");
 
   const [tahunPelajaran, setTahunPelajaran] = useState("2026/2027");
+  const [tanggalLaporan, setTanggalLaporan] = useState(
+  new Date().toISOString().split("T")[0]
+);
   const [semester, setSemester] = useState("GANJIL");
   const [bulan, setBulan] = useState(sekarang.getMonth() + 1);
 
@@ -533,6 +536,27 @@ export default function LaporanPage() {
               <label>
                 <strong>Tahun Pelajaran</strong>
               </label>
+              <div>
+  <label>
+    <strong>Tanggal Laporan</strong>
+  </label>
+
+  <input
+    type="date"
+    value={tanggalLaporan}
+    onChange={(e) => setTanggalLaporan(e.target.value)}
+    style={{
+      width: "100%",
+      padding: "11px",
+      marginTop: "6px",
+      color: "#111827",
+      background: "white",
+      border: "1px solid #9ca3af",
+      borderRadius: "8px",
+      boxSizing: "border-box",
+    }}
+  />
+</div>
               <input
                 type="text"
                 value={tahunPelajaran}
@@ -1113,8 +1137,18 @@ export default function LaporanPage() {
             >
               <div style={{ textAlign: "center", width: "300px" }}>
                 <p>
-                  Bulik Timur, __________________ 2026
-                </p>
+  Bukit Jaya,{" "}
+  {tanggalLaporan
+    ? new Date(`${tanggalLaporan}T00:00:00`).toLocaleDateString(
+        "id-ID",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }
+      )
+    : "__________________"}
+</p>
                 <p>Wali Kelas</p>
 
                 <div style={{ height: "80px" }} />
