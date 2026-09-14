@@ -72,11 +72,12 @@ const menus = [
   desc: 'Pantau perkembangan karakter',
   link: '/karakter',
 },
-  {
-    icon: '🌱',
-    title: 'Potensi & Minat',
-    desc: 'Kenali potensi siswa',
-  },
+ {
+  icon: '🌱',
+  title: 'Potensi & Minat',
+  desc: 'Kenali potensi siswa',
+  link: '/potensi-minat',
+},
   {
     icon: '📖',
     title: 'Jurnal Kelas',
@@ -192,12 +193,13 @@ function bukaMenu(link?: string) {
 </button>
 
           <button
-            type="button"
-            className="navItem"
-          >
-            <span>🌱</span>
-            Potensi & Minat
-          </button>
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu('/potensi-minat')}
+>
+  <span>🌱</span>
+  Potensi & Minat
+</button>
 
           <div className="navTitle second">
             ADMINISTRASI
