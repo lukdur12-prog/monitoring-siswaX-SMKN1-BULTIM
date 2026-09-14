@@ -10,19 +10,20 @@ export default function Home() {
   const [jumlahKelas, setJumlahKelas] = useState(0)
   const router = useRouter()
 
- useEffect(() => {
-  async function checkLogin() {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+  useEffect(() => {
+    async function checkLogin() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
 
-    if (!session) {
-      router.replace('/admin')
+      if (!session) {
+        router.replace('/admin')
+      }
     }
-  }
 
-  checkLogin()
-}, [router])
+    checkLogin()
+  }, [router])
+
   useEffect(() => {
     async function loadData() {
       const { count: siswaCount } = await supabase
@@ -46,61 +47,60 @@ export default function Home() {
     loadData()
   }, [])
 
+  const menus = [
+    {
+      icon: '👨‍🎓',
+      title: 'Data Siswa',
+      desc: 'Kelola data peserta didik',
+      link: '/siswa',
+    },
+    {
+      icon: '📅',
+      title: 'Kehadiran',
+      desc: 'Pantau kehadiran siswa',
+      link: '/kehadiran',
+    },
+    {
+      icon: '📚',
+      title: 'Perkembangan Belajar',
+      desc: 'Catat perkembangan akademik',
+      link: '/perkembangan-belajar',
+    },
+    {
+      icon: '⭐',
+      title: 'Karakter',
+      desc: 'Pantau perkembangan karakter',
+      link: '/karakter',
+    },
+    {
+      icon: '🌱',
+      title: 'Potensi & Minat',
+      desc: 'Kenali potensi siswa',
+      link: '/potensi-minat',
+    },
+    {
+      icon: '📖',
+      title: 'Jurnal Kelas',
+      desc: 'Catatan kegiatan pembelajaran',
+      link: '/jurnal-kelas',
+    },
+    {
+      icon: '😊',
+      title: 'Kepuasan Belajar',
+      desc: 'Suara dan pengalaman siswa',
+    },
+    {
+      icon: '📊',
+      title: 'Laporan',
+      desc: 'Laporan monitoring siswa',
+    },
+  ]
 
-const menus = [
-  {
-    icon: '👨‍🎓',
-    title: 'Data Siswa',
-    desc: 'Kelola data peserta didik',
-    link: '/siswa',
-  },
-  {
-    icon: '📅',
-    title: 'Kehadiran',
-    desc: 'Pantau kehadiran siswa',
-    link: '/kehadiran',
-  },
- {
-  icon: '📚',
-  title: 'Perkembangan Belajar',
-  desc: 'Catat perkembangan akademik',
-  link: '/perkembangan-belajar',
-},
-{
-  icon: '⭐',
-  title: 'Karakter',
-  desc: 'Pantau perkembangan karakter',
-  link: '/karakter',
-},
- {
-  icon: '🌱',
-  title: 'Potensi & Minat',
-  desc: 'Kenali potensi siswa',
-  link: '/potensi-minat',
-},
-  {
-    icon: '📖',
-    title: 'Jurnal Kelas',
-    desc: 'Catatan kegiatan pembelajaran',
-  },
-  {
-    icon: '😊',
-    title: 'Kepuasan Belajar',
-    desc: 'Suara dan pengalaman siswa',
-  },
-  {
-    icon: '📊',
-    title: 'Laporan',
-    desc: 'Laporan monitoring siswa',
-  },
-]
-
-function bukaMenu(link?: string) {
-  if (link) {
-    window.location.href = link
+  function bukaMenu(link?: string) {
+    if (link) {
+      window.location.href = link
+    }
   }
-}
-
 
   return (
     <div className="app">
@@ -151,6 +151,7 @@ function bukaMenu(link?: string) {
           <button
             type="button"
             className="navItem active"
+            onClick={() => bukaMenu('/')}
           >
             <span>⌂</span>
             Dashboard
@@ -165,61 +166,63 @@ function bukaMenu(link?: string) {
             Data Siswa
           </button>
 
-         <button
-  type="button"
-  className="navItem"
-  onClick={() => bukaMenu('/kehadiran')}
->
-  <span>📅</span>
-  Kehadiran
-</button>
+          <button
+            type="button"
+            className="navItem"
+            onClick={() => bukaMenu('/kehadiran')}
+          >
+            <span>📅</span>
+            Kehadiran
+          </button>
 
           <button
+            type="button"
+            className="navItem"
+            onClick={() => bukaMenu('/perkembangan-belajar')}
+          >
+            <span>📚</span>
+            Perkembangan
+          </button>
+
+          <button
+            type="button"
+            className="navItem"
+            onClick={() => bukaMenu('/karakter')}
+          >
+            <span>⭐</span>
+            Karakter
+          </button>
+
+          <button
+            type="button"
+            className="navItem"
+            onClick={() => bukaMenu('/potensi-minat')}
+          >
+            <span>🌱</span>
+            Potensi & Minat
+          </button>
+
+          <div className="navTitle second">
+  ADMINISTRASI
+</div>
+
+<button
   type="button"
   className="navItem"
-  onClick={() => bukaMenu('/perkembangan-belajar')}
+  onClick={() => bukaMenu("/jurnal-kelas")}
 >
-  <span>📚</span>
-  Perkembangan
+  <span>📖</span>
+  <span>Jurnal Kelas</span>
 </button>
 
 <button
   type="button"
   className="navItem"
-  onClick={() => bukaMenu('/karakter')}
+  onClick={() => bukaMenu("/laporan")}
 >
-  <span>⭐</span>
-  Karakter
+  <span>📊</span>
+  <span>Laporan</span>
 </button>
-
-          <button
-  type="button"
-  className="navItem"
-  onClick={() => bukaMenu('/potensi-minat')}
->
-  <span>🌱</span>
-  Potensi & Minat
-</button>
-
-          <div className="navTitle second">
-            ADMINISTRASI
-          </div>
-
-          <button
-            type="button"
-            className="navItem"
-          >
-            <span>📖</span>
-            Jurnal Kelas
-          </button>
-
-          <button
-            type="button"
-            className="navItem"
-          >
-            <span>📊</span>
-            Laporan
-          </button>
 
         </nav>
 
