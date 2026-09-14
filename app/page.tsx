@@ -85,10 +85,11 @@ export default function Home() {
       link: '/jurnal-kelas',
     },
     {
-      icon: '😊',
-      title: 'Kepuasan Belajar',
-      desc: 'Suara dan pengalaman siswa',
-    },
+  icon: '😊',
+  title: 'Kepuasan Belajar',
+  desc: 'Suara dan pengalaman siswa',
+  link: '/kepuasan-belajar',
+},
     {
       icon: '📊',
       title: 'Laporan',
@@ -213,6 +214,15 @@ export default function Home() {
 >
   <span>📖</span>
   <span>Jurnal Kelas</span>
+</button>
+
+<button
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu("/kepuasan-belajar")}
+>
+  <span>😊</span>
+  <span>Kepuasan Belajar</span>
 </button>
 
 <button

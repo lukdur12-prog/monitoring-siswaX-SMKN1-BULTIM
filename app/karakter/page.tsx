@@ -15,6 +15,7 @@ type Karakter = {
   bulan: number;
   tahun: number;
   karakter: string;
+  status_karakter: string | null;
   deskripsi: string | null;
 };
 
@@ -22,6 +23,11 @@ const daftarKarakter = [
   "GOTONG ROYONG",
   "DISIPLIN",
   "TANGGUNG JAWAB",
+];
+
+const daftarStatus = [
+  "Sudah Membudaya",
+  "Belum Membudaya",
 ];
 
 const daftarBulan = [
@@ -47,6 +53,7 @@ export default function KarakterPage() {
   const [tahun, setTahun] = useState(new Date().getFullYear());
 
   const [siswaId, setSiswaId] = useState("");
+  const [statusKarakter, setStatusKarakter] = useState("");
   const [karakter, setKarakter] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
 
@@ -87,7 +94,7 @@ export default function KarakterPage() {
     const { data, error } = await supabase
       .from("karakter_siswa")
       .select(
-        "id, siswa_id, bulan, tahun, karakter, deskripsi"
+        "id, siswa_id, bulan, tahun, karakter, status_karakter, deskripsi"
       )
       .eq("bulan", bulan)
       .eq("tahun", tahun)
@@ -106,6 +113,7 @@ export default function KarakterPage() {
 
   function resetForm() {
     setSiswaId("");
+    setStatusKarakter("");
     setKarakter("");
     setDeskripsi("");
     setEditId(null);
@@ -114,6 +122,11 @@ export default function KarakterPage() {
   async function simpanData() {
     if (!siswaId) {
       alert("Silakan pilih nama siswa.");
+      return;
+    }
+
+    if (!statusKarakter) {
+      alert("Silakan pilih status karakter.");
       return;
     }
 
@@ -138,6 +151,7 @@ export default function KarakterPage() {
             bulan,
             tahun,
             karakter,
+            status_karakter: statusKarakter,
             deskripsi: deskripsi.trim(),
           })
           .eq("id", editId);
@@ -156,6 +170,7 @@ export default function KarakterPage() {
               bulan,
               tahun,
               karakter,
+              status_karakter: statusKarakter,
               deskripsi: deskripsi.trim(),
             },
             {
@@ -194,6 +209,7 @@ export default function KarakterPage() {
   function editData(data: Karakter) {
     setEditId(data.id);
     setSiswaId(String(data.siswa_id));
+    setStatusKarakter(data.status_karakter || "");
     setKarakter(data.karakter);
     setDeskripsi(data.deskripsi || "");
 
@@ -238,34 +254,33 @@ export default function KarakterPage() {
     return data?.nama_siswa || "-";
   }
 
-  /*
-   * Membuat rekap:
-   *
-   * Nama Siswa | Gotong Royong | Disiplin | Tanggung Jawab
-   *
-   * Setiap karakter diambil dari data yang sudah disimpan.
-   */
   const rekapSiswa = siswa.map((item) => {
     const dataSiswa = dataKarakter.filter(
       (data) => data.siswa_id === item.id
     );
 
+    const karakterMembudaya = dataSiswa
+      .filter(
+        (data) =>
+          data.status_karakter === "Sudah Membudaya"
+      )
+      .map((data) => data.karakter)
+      .join(", ");
+
+    const karakterBelumMembudaya = dataSiswa
+      .filter(
+        (data) =>
+          data.status_karakter === "Belum Membudaya"
+      )
+      .map((data) => data.karakter)
+      .join(", ");
+
     return {
       siswa: item,
-      gotongRoyong:
-        dataSiswa.find(
-          (data) => data.karakter === "GOTONG ROYONG"
-        )?.deskripsi || "-",
-
-      disiplin:
-        dataSiswa.find(
-          (data) => data.karakter === "DISIPLIN"
-        )?.deskripsi || "-",
-
-      tanggungJawab:
-        dataSiswa.find(
-          (data) => data.karakter === "TANGGUNG JAWAB"
-        )?.deskripsi || "-",
+      membudaya:
+        karakterMembudaya || "-",
+      belumMembudaya:
+        karakterBelumMembudaya || "-",
     };
   });
 
@@ -397,9 +412,31 @@ export default function KarakterPage() {
               </select>
             </div>
 
+            {/* STATUS KARAKTER */}
+            <div className="field">
+              <label>Status Karakter</label>
+
+              <select
+                value={statusKarakter}
+                onChange={(e) =>
+                  setStatusKarakter(e.target.value)
+                }
+              >
+                <option value="">
+                  -- Pilih Status --
+                </option>
+
+                {daftarStatus.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* KARAKTER */}
             <div className="field">
-              <label>Karakter</label>
+              <label>Jenis Karakter</label>
 
               <select
                 value={karakter}
@@ -499,9 +536,8 @@ export default function KarakterPage() {
                     <tr>
                       <th>No</th>
                       <th>Nama Siswa</th>
-                      <th>Gotong Royong</th>
-                      <th>Disiplin</th>
-                      <th>Tanggung Jawab</th>
+                      <th>Karakter Sudah Membudaya</th>
+                      <th>Karakter Belum Membudaya</th>
                     </tr>
                   </thead>
 
@@ -520,15 +556,11 @@ export default function KarakterPage() {
                           </td>
 
                           <td>
-                            {item.gotongRoyong}
+                            {item.membudaya}
                           </td>
 
                           <td>
-                            {item.disiplin}
-                          </td>
-
-                          <td>
-                            {item.tanggungJawab}
+                            {item.belumMembudaya}
                           </td>
 
                         </tr>
@@ -562,6 +594,7 @@ export default function KarakterPage() {
                         <tr>
                           <th>No</th>
                           <th>Nama Siswa</th>
+                          <th>Status</th>
                           <th>Karakter</th>
                           <th>Deskripsi</th>
                           <th>Aksi</th>
@@ -582,6 +615,11 @@ export default function KarakterPage() {
                                 {namaSiswa(
                                   data.siswa_id
                                 )}
+                              </td>
+
+                              <td className="status">
+                                {data.status_karakter ||
+                                  "-"}
                               </td>
 
                               <td className="karakter">
@@ -833,7 +871,7 @@ export default function KarakterPage() {
         table {
           width: 100%;
           border-collapse: collapse;
-          min-width: 900px;
+          min-width: 1000px;
         }
 
         th {
@@ -864,7 +902,8 @@ export default function KarakterPage() {
           white-space: nowrap;
         }
 
-        td.karakter {
+        td.karakter,
+        td.status {
           font-weight: 800;
           white-space: nowrap;
         }
