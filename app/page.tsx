@@ -258,7 +258,87 @@ export default function Home() {
 
       </aside>
 
+      {/* MOBILE HEADER */}
+      <div className="mobileHeader">
+        <div className="mobileBrand">
+          <div className="mobileBrandIcon">🎓</div>
 
+          <div>
+            <div className="mobileBrandTitle">
+              MONITORING SISWA
+            </div>
+
+            <div className="mobileBrandSub">
+              KELAS X MP
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="mobileMenuButton"
+          onClick={() => {
+            const menu = document.querySelector('.mobileMenu')
+
+            if (menu) {
+              menu.classList.toggle('show')
+            }
+          }}
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* MOBILE MENU */}
+      <div className="mobileMenu">
+        <button type="button" onClick={() => bukaMenu('/')}>
+          🏠 Dashboard
+        </button>
+
+        <button type="button" onClick={() => bukaMenu('/siswa')}>
+          👨‍🎓 Data Siswa
+        </button>
+
+        <button type="button" onClick={() => bukaMenu('/kehadiran')}>
+          📅 Kehadiran
+        </button>
+
+        <button
+          type="button"
+          onClick={() => bukaMenu('/perkembangan-belajar')}
+        >
+          📚 Perkembangan
+        </button>
+
+        <button type="button" onClick={() => bukaMenu('/karakter')}>
+          ⭐ Karakter
+        </button>
+
+        <button
+          type="button"
+          onClick={() => bukaMenu('/potensi-minat')}
+        >
+          🌱 Potensi & Minat
+        </button>
+
+        <button
+          type="button"
+          onClick={() => bukaMenu('/jurnal-kelas')}
+        >
+          📓 Jurnal Kelas
+        </button>
+
+        <button
+          type="button"
+          onClick={() => bukaMenu('/kepuasan-belajar')}
+        >
+          😊 Kepuasan Belajar
+        </button>
+
+        <button type="button" onClick={() => bukaMenu('/laporan')}>
+          📄 Laporan
+        </button>
+      </div>
       {/* MAIN */}
       <main className="main">
 
@@ -901,7 +981,283 @@ export default function Home() {
           }
 
         }
+        /* MOBILE HEADER */
+        .mobileHeader {
+          display: none;
+        }
 
+        .mobileMenu {
+          display: none;
+        }
+
+        @media (max-width: 800px) {
+
+          .mobileHeader {
+            display: flex;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            min-height: 64px;
+            background: #10251c;
+            color: white;
+            padding: 10px 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+          }
+
+          .mobileBrand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .mobileBrandIcon {
+            width: 40px;
+            height: 40px;
+            background: #24a36a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+          }
+
+          .mobileBrandTitle {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .5px;
+          }
+
+          .mobileBrandSub {
+            font-size: 9px;
+            color: #8fd2b0;
+            margin-top: 3px;
+            letter-spacing: 1px;
+          }
+
+          .mobileMenuButton {
+            width: 43px;
+            height: 43px;
+            border: none;
+            border-radius: 10px;
+            background: #1f9d65;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+          }
+
+          .mobileMenu {
+            display: none;
+            background: white;
+            padding: 10px;
+            border-bottom: 1px solid #dfe7e2;
+            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+          }
+
+          .mobileMenu.show {
+            display: block;
+          }
+
+          .mobileMenu button {
+            width: 100%;
+            border: none;
+            background: white;
+            color: #17221d;
+            padding: 13px 12px;
+            border-radius: 9px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 3px;
+          }
+
+          .mobileMenu button:active {
+            background: #e8f6ef;
+          }
+
+          .sidebar {
+            display: none;
+          }
+
+          .app {
+            display: block;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+          }
+
+          .main {
+            margin-left: 0;
+            width: 100%;
+            padding: 18px 14px 25px;
+          }
+
+          .topbar {
+            display: block;
+            margin-bottom: 20px;
+          }
+
+          .breadcrumb {
+            font-size: 10px;
+          }
+
+          .topbar h1 {
+            font-size: 23px;
+            line-height: 1.25;
+          }
+
+          .topbar p {
+            font-size: 12px;
+            line-height: 1.5;
+          }
+
+          .profile {
+            display: none;
+          }
+
+          .hero {
+            padding: 24px 20px;
+            min-height: 145px;
+            border-radius: 18px;
+          }
+
+          .hero h2 {
+            font-size: 29px;
+            margin: 8px 0;
+          }
+
+          .hero p {
+            font-size: 11px;
+            line-height: 1.5;
+          }
+
+          .heroDecoration {
+            display: none;
+          }
+
+          .stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+          }
+
+          .statCard {
+            padding: 15px;
+            border-radius: 14px;
+          }
+
+          .statIcon {
+            width: 36px;
+            height: 36px;
+            font-size: 17px;
+          }
+
+          .statTitle {
+            font-size: 10px;
+          }
+
+          .statValue {
+            font-size: 23px;
+            margin-top: 9px;
+          }
+
+          .statNote {
+            font-size: 9px;
+            line-height: 1.3;
+          }
+
+          .menuSection {
+            margin-top: 27px;
+          }
+
+          .sectionHeader {
+            align-items: flex-start;
+          }
+
+          .sectionHeader h2 {
+            font-size: 18px;
+          }
+
+          .sectionHeader p {
+            font-size: 10px;
+            line-height: 1.4;
+          }
+
+          .menuCount {
+            font-size: 9px;
+            padding: 6px 9px;
+          }
+
+          .menuGrid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+
+          .menuCard {
+            min-height: 78px;
+            padding: 14px;
+            border-radius: 14px;
+          }
+
+          .menuIcon {
+            min-width: 43px;
+            width: 43px;
+            height: 43px;
+            font-size: 20px;
+            border-radius: 11px;
+          }
+
+          .menuText h3 {
+            font-size: 13px;
+          }
+
+          .menuText p {
+            font-size: 10px;
+            line-height: 1.4;
+          }
+
+          .arrow {
+            font-size: 20px;
+          }
+
+          footer {
+            font-size: 9px;
+            line-height: 1.5;
+            margin-top: 30px;
+          }
+        }
+
+        @media (max-width: 380px) {
+
+          .main {
+            padding-left: 11px;
+            padding-right: 11px;
+          }
+
+          .mobileBrandTitle {
+            font-size: 11px;
+          }
+
+          .hero h2 {
+            font-size: 25px;
+          }
+
+          .stats {
+            gap: 8px;
+          }
+
+          .statCard {
+            padding: 12px;
+          }
+
+          .statValue {
+            font-size: 21px;
+          }
+
+        }
         @media (max-width: 800px) {
 
           .sidebar {
@@ -930,14 +1286,42 @@ export default function Home() {
 
         @media (max-width: 550px) {
 
-          .stats,
-          .menuGrid {
-            grid-template-columns: 1fr;
-          }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
 
-          .hero h2 {
-            font-size: 28px;
-          }
+  .menuGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    padding: 13px;
+  }
+
+  .statIcon {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .statTitle {
+    font-size: 9px;
+  }
+
+  .statValue {
+    font-size: 21px;
+  }
+
+  .statNote {
+    font-size: 8px;
+  }
+
+  .hero h2 {
+    font-size: 28px;
+  }
+
+}
 
         }
 
