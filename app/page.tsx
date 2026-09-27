@@ -67,6 +67,12 @@ export default function Home() {
       link: '/perkembangan-belajar',
     },
     {
+  icon: '📖',
+  title: 'Literasi Siswa',
+  desc: 'Catat kegiatan membaca siswa',
+  link: '/literasi-siswa',
+},
+    {
       icon: '⭐',
       title: 'Karakter',
       desc: 'Pantau perkembangan karakter',
@@ -184,6 +190,14 @@ export default function Home() {
             <span>📚</span>
             Perkembangan
           </button>
+          <button
+  type="button"
+  className="navItem"
+  onClick={() => bukaMenu('/literasi-siswa')}
+>
+  <span>📖</span>
+  Literasi Siswa
+</button>
 
           <button
             type="button"
@@ -309,6 +323,12 @@ export default function Home() {
         >
           📚 Perkembangan
         </button>
+        <button
+  type="button"
+  onClick={() => bukaMenu('/literasi-siswa')}
+>
+  📖 Literasi Siswa
+</button>
 
         <button type="button" onClick={() => bukaMenu('/karakter')}>
           ⭐ Karakter
@@ -470,7 +490,7 @@ export default function Home() {
             </div>
 
             <span className="menuCount">
-              8 Modul
+              9 Modul
             </span>
 
           </div>
