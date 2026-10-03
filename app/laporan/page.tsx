@@ -24,6 +24,7 @@ type Perkembangan = {
   id: number;
   bulan: number;
   tahun: number;
+  mata_pelajaran: string | null;
   nilai: number | null;
   catatan: string | null;
 };
@@ -98,6 +99,7 @@ export default function LaporanPage() {
   );
 
   const [semester, setSemester] = useState("GANJIL");
+
   const [bulan, setBulan] = useState(
     sekarang.getMonth() + 1
   );
@@ -169,8 +171,8 @@ export default function LaporanPage() {
 
       const pageWidth = 210;
       const pageHeight = 297;
-
       const margin = 10;
+
       const contentWidth =
         pageWidth - margin * 2;
 
@@ -260,9 +262,11 @@ export default function LaporanPage() {
 
     if (error) {
       console.error(error);
+
       setPesan(
         "Gagal mengambil data siswa."
       );
+
       return;
     }
 
@@ -278,6 +282,7 @@ export default function LaporanPage() {
       setPesan(
         "Silakan pilih siswa terlebih dahulu."
       );
+
       return;
     }
 
@@ -298,14 +303,16 @@ export default function LaporanPage() {
 
     setDataSiswa(siswaTerpilih);
 
-    // Awal bulan
+    // ===================================================
+    // RENTANG TANGGAL BULAN
+    // ===================================================
+
     const tanggalAwal =
       `${tahun}-${String(bulan).padStart(
         2,
         "0"
       )}-01`;
 
-    // Awal bulan berikutnya
     const tanggalAkhirDate =
       new Date(
         tahun,
@@ -317,6 +324,10 @@ export default function LaporanPage() {
       `${tanggalAkhirDate.getFullYear()}-${String(
         tanggalAkhirDate.getMonth() + 1
       ).padStart(2, "0")}-01`;
+
+    // ===================================================
+    // AMBIL SEMUA DATA
+    // ===================================================
 
     const [
       hasilKehadiran,
@@ -351,11 +362,13 @@ export default function LaporanPage() {
       // =================================================
       // PERKEMBANGAN BELAJAR
       // =================================================
+      // PERBAIKAN:
+      // mata_pelajaran sekarang ikut diambil dari database
 
       supabase
         .from("perkembangan_belajar")
         .select(
-          "id, bulan, tahun, nilai, catatan"
+          "id, bulan, tahun, mata_pelajaran, nilai, catatan"
         )
         .eq(
           "siswa_id",
@@ -708,7 +721,6 @@ export default function LaporanPage() {
             margin: "0 auto",
           }}
         >
-
           {/* =====================================================
               HEADER
           ===================================================== */}
@@ -792,7 +804,6 @@ export default function LaporanPage() {
                 gap: "15px",
               }}
             >
-
               {/* SISWA */}
 
               <div>
@@ -1018,7 +1029,9 @@ export default function LaporanPage() {
 
               <div className="laporan-kertas">
 
-                {/* HEADER PDF */}
+                {/* =================================================
+                    HEADER PDF
+                ================================================= */}
 
                 <div
                   style={{
@@ -1307,13 +1320,27 @@ export default function LaporanPage() {
                   <table>
                     <thead>
                       <tr>
-                        <th>No</th>
+                        <th
+                          style={{
+                            width: "45px",
+                            textAlign:
+                              "center",
+                          }}
+                        >
+                          No
+                        </th>
 
                         <th>
                           Mata Pelajaran
                         </th>
 
-                        <th>
+                        <th
+                          style={{
+                            width: "65px",
+                            textAlign:
+                              "center",
+                          }}
+                        >
                           Nilai
                         </th>
 
@@ -1359,15 +1386,22 @@ export default function LaporanPage() {
                                 {index + 1}
                               </td>
 
+                              {/* =================================================
+                                  PERBAIKAN UTAMA:
+                                  MENAMPILKAN MATA PELAJARAN DARI DATABASE
+                              ================================================= */}
+
                               <td>
-                                Data mata
-                                pelajaran
+                                {item.mata_pelajaran ||
+                                  "-"}
                               </td>
 
                               <td
                                 style={{
                                   textAlign:
                                     "center",
+                                  fontWeight:
+                                    "bold",
                                 }}
                               >
                                 {item.nilai ??
@@ -1756,15 +1790,34 @@ export default function LaporanPage() {
                       Wali Kelas
                     </p>
 
-                    <div
-                      style={{
-                        height: "80px",
-                      }}
-                    />
+                   <div
+  style={{
+    height: "80px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  }}
+>
+  <img
+    src="/tanda-tangan-sumarno.png"
+    alt="Tanda tangan Sumarno"
+    style={{
+      width: "180px",
+      height: "auto",
+      objectFit: "contain",
+      display: "block",
+    }}
+  />
+</div>
 
-                    <strong>
-                      Sumarno, S.Pd.I
-                    </strong>
+<strong
+  style={{
+    textDecoration: "underline",
+    fontSize: "15px",
+  }}
+>
+  Sumarno, S.Pd.I
+</strong>
 
                     <br />
 
